@@ -1,7 +1,8 @@
 Project Name:
 Forest Fire Forecasting for South East Australia
 
-Project proposal documentation link: https://docs.google.com/document/d/1VGjtTgS9g_swLSnqXPrXOn5w5X1MhZPOS6KSaGSR9dQ/edit
+Project proposal documentation link:
+https://docs.google.com/document/d/1VGjtTgS9g_swLSnqXPrXOn5w5X1MhZPOS6KSaGSR9dQ/edit
 
 Contact Information:
 Vivien Chen: vchen2@bu.edu
@@ -11,8 +12,8 @@ Qianning Qin: qnqin@bu.edu
 Yingtong Zhang: zhangyt@bu.edu
 
 Cron Settings:
-1. ROI: H29 V13 in MODIS tier
-2. Data source
+1. ROI: H29 V12 in MODIS tier
+2. Data source:
  1) MOD14A2: MODIS/Terra Thermal Anomalies & Fire 8-Day L3 Global 1km V006
  2) VNP14: VIIRS/NPP Thermal Anomalies/Fire 6-Min L2 Swath 750 m V001
  3) MOD13A2: Vegetation Indices 16-Day L3 Global 1km
