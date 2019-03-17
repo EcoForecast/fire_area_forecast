@@ -16,8 +16,8 @@ library(googlesheets)
 library(googleAuthR)
 library(rnoaa)
 library(lubridate)
-installed.packages()
-library(udunits2, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+install.packages('udunits2')
+library(udunits2)
 #gar_auth(token = ".httr-oauth")
 
 
@@ -93,7 +93,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   
   noaa_data = list()
   
-  library(ncdf4)
+  
   #Downloading the data here.  It is stored in a matrix, where columns represent time in intervals of 6 hours, and rows represent
   #each ensemble member.  Each variable gets its own matrix, which is stored in the list noaa_data.
   for (i in 1:length(noaa_var_names)) {
@@ -265,28 +265,9 @@ start_date <- Sys.time()
 #end_dat
 
 day <- 2019-02-02
-outfolder <- paste0("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+#outfolder <- paste("/Users/tess/Documents/work/Gefs_download", day, "/",  sep = "")
+download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
-test <- download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in)
 
-#rows <- ceiling(dim(sites)[1]/3)
-#rows2 <- ceiling(dim(sites)[1]/3) + ceiling(dim(sites)[1]/3)
-#rows3 <- dim(sites)[1]
-
-Sys.setenv(TZ='America/New_York')
-days = seq(from = Sys.Date()- lubridate::days(12), to = Sys.Date(), by = 'days')
-for(i in 1:rows) { 
-  for(j in 1: length(days)){
-  lat.in = sites[i,2]
-  lon.in = sites[i,3]
-  sitename = sites[i,1]
-  outfolder = paste0("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS", sitename, "/", days[j])
-
-  if (!dir.exists(outfolder)) {
-    dir.create(outfolder, recursive=TRUE, showWarnings = FALSE)
-    download.NOAA_GEFS(outfolder = outfolder, lat.in = lat.in, lon.in = lon.in, sitename = sitename, start_date = days[j])
-    
-  }
-  }
-} 
 
