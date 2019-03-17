@@ -1,0 +1,2 @@
+MAILTO=shijuan@bu.edu
+30 18 * * 7 /usr3/graduate/shijuan/Desktop/fire_area_forecast/cron_GEFs_download.sh
