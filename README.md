@@ -13,7 +13,6 @@ Basically we are going to forecast the _active fire_ by 8-Day, using two fire pr
 
 
 
-
 ## Contact Information
 - Vivien Chen: [vchen2@bu.edu]
 - Yingtong Zhang: [zhangyt@bu.edu]
