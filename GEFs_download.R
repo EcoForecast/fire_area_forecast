@@ -1,7 +1,7 @@
 # GEO RUN: 
 setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
-.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
+#.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
 
 install.packages("googlesheets", repos='http://cran.us.r-project.org', dependencies = TRUE)
 install.packages("googleAuthR", repos='http://cran.us.r-project.org')
@@ -16,7 +16,6 @@ library(googlesheets)
 library(googleAuthR)
 library(rnoaa)
 library(lubridate)
-install.packages('udunits2')
 library(udunits2)
 #gar_auth(token = ".httr-oauth")
 
@@ -256,18 +255,33 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   return(results_list)
 }#download.NOAA_GEFS
 
-#outfolder <- "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/"
+#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
-#start_date <- "2019-02-02 12:30:00 UCT"
-#end_dat
-
-day <- 2019-02-02
+day <- format(start_date, "%Y%m%d")
 outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
-#outfolder <- paste("/Users/tess/Documents/work/Gefs_download", day, "/",  sep = "")
+
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
+### Average 6-hour incerments into 8-day data
+
+flist_8_days <- list.files(path = outfolder)
+tempurature <- rep(NA, length(flist_8_days))
+precipitation <- rep(NA, length(flist_8_days))
+
+for (i in seq_along(flist_8_days)){
+  tmp_nc <- nc_open( paste(outfolder, flist_8_days[i], sep = ""))
+  precipitation[i] <- mean(ncvar_get(tmp_nc, "precipitation_flux")) #Note, I am unsure why I have 21 files, and then 21 values within each file. Where are the 8 days? 
+  tempurature[i] <- mean(ncvar_get(tmp_nc, "air_temperature"))
+  nc_close(tmp_nc)
+}
 
 
+eight_day_max_temp <- max(tempurature)
+eight_day_mean_precip <- mean(precipitation)
+
+current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
+
+write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = ""))
