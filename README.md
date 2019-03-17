@@ -12,7 +12,7 @@ Basically we are going to forecast the _active fire_ by 8-Day, using two fire pr
 - [VIIRS I Band 750 m Active Fire Product NRT (at 8-Day resolution)] (https://e4ftl01.cr.usgs.gov/VIIRS/VNP14A1.001/)
 
 ### Data Info:
-ROI: H29 V12 in MODIS tier
+ROI: H29 V12 in MODIS tiles
 
 ### Project proposal documentation link:
 https://docs.google.com/document/d/1VGjtTgS9g_swLSnqXPrXOn5w5X1MhZPOS6KSaGSR9dQ/edit
