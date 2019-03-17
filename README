@@ -16,4 +16,6 @@ Cron Settings:
  link: https://e4ftl01.cr.usgs.gov/VIIRS/
  3) GEFS Reforcast v2 Ensemble Data
  link: https://www.esrl.noaa.gov/psd/forecasts/reforecast2/download.html
- 4) EVI https://e4ftl01.cr.usgs.gov/MOLT/
+ 4) MOD13A2: MODIS/Terra Vegetation Indices 16-Day L3 Global 1 km SIN Grid V006
+ link: https://e4ftl01.cr.usgs.gov/MOLT/
+
