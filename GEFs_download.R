@@ -261,13 +261,10 @@ lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
-#start_date <- "2019-02-02 12:30:00 UCT"
-#end_dat
-
-day <- 2019-02-02
 outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
-#outfolder <- paste("/Users/tess/Documents/work/Gefs_download", day, "/",  sep = "")
+
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
+### Average 6-hour incerments into 8-day data
 
 
