@@ -17,6 +17,7 @@ library(googleAuthR)
 library(rnoaa)
 library(lubridate)
 library(udunits2)
+
 #gar_auth(token = ".httr-oauth")
 
 
@@ -255,7 +256,8 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   return(results_list)
 }#download.NOAA_GEFS
 
-#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/"
+
+#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
@@ -265,23 +267,38 @@ outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/
 
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
-### Average 6-hour incerments into 8-day data
-
+###### Create a simple to interpret csv from ensemble .nc files
+## How many numbers will there be, based on the number of days requested
+day_number <- 8
+hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
-tempurature <- rep(NA, length(flist_8_days))
-precipitation <- rep(NA, length(flist_8_days))
+day_index <- sort(rep(1:hour_number, 4)) ## what day measurement came from
+
+## Setup the empty files
+tempurature <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
+precipitation <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
+colnames(tempurature) <- as.character(c(1:21)) # Ensemble ID's 
+colnames(precipitation) <- as.character(c(1:21)) # Ensemble ID's 
+
 
 for (i in seq_along(flist_8_days)){
   tmp_nc <- nc_open( paste(outfolder, flist_8_days[i], sep = ""))
-  precipitation[i] <- mean(ncvar_get(tmp_nc, "precipitation_flux")) #Note, I am unsure why I have 21 files, and then 21 values within each file. Where are the 8 days? 
-  tempurature[i] <- mean(ncvar_get(tmp_nc, "air_temperature"))
+  precipitation[,i] <- ncvar_get(tmp_nc, "precipitation_flux") 
+  tempurature[,i] <- ncvar_get(tmp_nc, "air_temperature")
   nc_close(tmp_nc)
 }
 
+tempurature <- cbind(day_index, tempurature)
+precipitation <- cbind(day_index, precipitation)
 
-eight_day_max_temp <- max(tempurature)
-eight_day_mean_precip <- mean(precipitation)
+
+## Aggrigate to some composite number (Will likely need to make more sophisticated)
+#  for now, just two numbers. 
+#  We can incorperate all the ensemble members/ hours more formally when we write the model.
+eight_day_max_temp <- max(tempurature[,-1])
+eight_day_mean_precip <- mean(precipitation[,-1])
 
 current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
 
+## Write out results
 write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = ""))
