@@ -25,7 +25,7 @@ library(pracma)
 library(base)
 library(arules)
 
-
+system('grep -ir "fia" *.R')
 
 iyear = 2019
 if(iyear == 2000){
