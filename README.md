@@ -4,14 +4,19 @@ Basically we are going to forecast the _active fire_ by 8-Day, using two fire pr
 
 
 ### Datasets:
-- [Temperature data from reanalysis product (at daily scale resolution)] (https://www.esrl.noaa.gov/psd/forecasts/reforecast2/download.html)
+- [Temperature data from reanalysis product (at daily scale resolution)](https://www.esrl.noaa.gov/psd/forecasts/reforecast2/download.html)
 
-- [Precipitation data from reanalysis product (at daily resolution)] (https://www.esrl.noaa.gov/psd/forecasts/reforecast2/download.html)
-- [MODIS EVI product (at 16-Day resolution)] (https://e4ftl01.cr.usgs.gov/MOLT/MOD13A2.006/)
-- [MODIS/Terra Thermal Anomalies & Fire data product (at 8-Day resolution)] (https://e4ftl01.cr.usgs.gov/MOLT/MOD14A2.006/)
-- [VIIRS I Band 750 m Active Fire Product NRT (at 8-Day resolution)] (https://e4ftl01.cr.usgs.gov/VIIRS/VNP14A1.001/)
+- [Precipitation data from reanalysis product (at daily resolution)](https://www.esrl.noaa.gov/psd/forecasts/reforecast2/download.html)
+- [MODIS EVI product (at 16-Day resolution)](https://e4ftl01.cr.usgs.gov/MOLT/MOD13A2.006/)
+- [MODIS/Terra Thermal Anomalies & Fire data product (at 8-Day resolution)](https://e4ftl01.cr.usgs.gov/MOLT/MOD14A2.006/)
+- [VIIRS I Band 750 m Active Fire Product NRT (at 8-Day resolution)](https://e4ftl01.cr.usgs.gov/VIIRS/VNP14A1.001/)
 
+### Workflow:
 
+1. Run 01.x codes in sequence, get target data downloaded to the group's GEO shared directory.
+ - the starting date is Feb 2nd, 2019
+ - the study area is H29 V12 in MODIS tile
+ - data visualization can be done in qgis or bash
 
 ## Contact Information
 - Vivien Chen: [vchen2@bu.edu]
