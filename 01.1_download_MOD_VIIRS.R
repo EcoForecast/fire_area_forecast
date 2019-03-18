@@ -35,7 +35,7 @@ if(iyear == 2000){
   e_icomp = 23
 } else if(iyear == 2019){
   s_icomp = 1
-  e_icomp = 9
+  e_icomp = 10
 } else{
   s_icomp = 1
   e_icomp = 23
@@ -49,7 +49,7 @@ idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
 
 # download data
-for(icomp in 5:9){
+for(icomp in 5:10){
   if((icomp >= s_icomp) & (icomp <= e_icomp)){
     idoy = (icomp - 1) * interval + 1
     this_date = starting_date + (icomp-1) * interval
@@ -58,7 +58,7 @@ for(icomp in 5:9){
     this_day = as.numeric(format(this_date,'%d'))
     date_str = sprintf('%04d.%02d.%02d', this_year, this_month, this_day)
     
-    save_root = sprintf('/Users/Yingtong/codes/fire_area_forecast/data/MOD14A2/%04d/%03d/', 
+    save_root = sprintf('/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/%04d/%03d/', 
                        iyear, idoy)
   
     
