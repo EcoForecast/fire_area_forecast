@@ -1,3 +1,6 @@
+# run the following code at the terminal for a newer version of R before getting started
+# moduel load R_earth/3.1.0
+
 # GEO RUN: 
 setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
