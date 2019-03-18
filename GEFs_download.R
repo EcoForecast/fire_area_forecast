@@ -247,13 +247,13 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
 day <- format(start_date, "%Y%m%d")
-#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
