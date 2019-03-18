@@ -11,7 +11,12 @@ Basically we are going to forecast the _active fire_ by 8-Day, using two fire pr
 - [MODIS/Terra Thermal Anomalies & Fire data product (at 8-Day resolution)](https://e4ftl01.cr.usgs.gov/MOLT/MOD14A2.006/)
 - [VIIRS I Band 750 m Active Fire Product NRT (at 8-Day resolution)](https://e4ftl01.cr.usgs.gov/VIIRS/VNP14A1.001/)
 
+### Workflow:
 
+1. Run 01.x codes in sequence, get target data downloaded to the group's GEO shared directory.
+ - the starting date is Feb 2nd, 2019
+ - the study area is H29 V12 in MODIS tier
+ 
 
 ## Contact Information
 - Vivien Chen: [vchen2@bu.edu]
