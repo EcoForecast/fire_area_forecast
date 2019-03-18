@@ -18,16 +18,6 @@ library(rnoaa)
 library(lubridate)
 library(udunits2)
 
-#gar_auth(token = ".httr-oauth")
-
-
-#Call in data from Google Sheets 
-#for_gs <- gs_title("NEFI Sites NOAA GEFS")
-#sites <- gs_read(for_gs)
-#sites <- as.data.frame(sites)
-
-
-
 #function to download GEFS
 download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date = Sys.time(), end_date = (as.POSIXct(start_date, tz="UTC") + lubridate::days(8)),
                                overwrite = FALSE, verbose = FALSE, ...) {
@@ -257,13 +247,13 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
 day <- format(start_date, "%Y%m%d")
-outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
 
@@ -272,13 +262,16 @@ download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitenam
 day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
-day_index <- sort(rep(1:hour_number, 4)) ## what day measurement came from
+flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
+flist_8_days <- flist_8_days[grep(format(start_date, "%Y-%m-%d"), flist_8_days)]
+
+day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
 
 ## Setup the empty files
 tempurature <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
 precipitation <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
-colnames(tempurature) <- as.character(c(1:21)) # Ensemble ID's 
-colnames(precipitation) <- as.character(c(1:21)) # Ensemble ID's 
+colnames(tempurature) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= "_") # Ensemble ID's 
+colnames(precipitation) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= "_") # Ensemble ID's 
 
 
 for (i in seq_along(flist_8_days)){
@@ -291,6 +284,8 @@ for (i in seq_along(flist_8_days)){
 tempurature <- cbind(day_index, tempurature)
 precipitation <- cbind(day_index, precipitation)
 
+write.csv(tempurature, paste(outfolder,day,"_", "full_ensemble_tempurature.csv", sep = ""), row.names = FALSE) # Useful for writing out full ensemble temp & precip
+write.csv(precipitation, paste(outfolder,day,"_", "full_ensemble_precipitation.csv", sep = ""), row.names = FALSE)
 
 ## Aggrigate to some composite number (Will likely need to make more sophisticated)
 #  for now, just two numbers. 
@@ -301,4 +296,4 @@ eight_day_mean_precip <- mean(precipitation[,-1])
 current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
 
 ## Write out results
-write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = ""))
+write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
