@@ -20,14 +20,16 @@ get.pkg <- function(pkg){
   }
 }
 get.pkg("RCurl")
-install.packages("arules")
 library(pracma)
 library(base)
 library(arules)
 
 
-
+# give the year of data wanted be downloading
+# could write to a function if required multiple years
 iyear = 2019
+
+# data starting from Feburary of 2000
 if(iyear == 2000){
   s_icomp = 4
   e_icomp = 23
@@ -40,12 +42,13 @@ if(iyear == 2000){
 }
 accept_tile_string <- "*h29v12*.hdf"
 
-
+# data temporal resolution
 interval <- 8
+
 idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
 
-
+# download data
 for(icomp in 5:9){
   if((icomp >= s_icomp) & (icomp <= e_icomp)){
     idoy = (icomp - 1) * interval + 1
@@ -72,8 +75,4 @@ for(icomp in 5:9){
   }
   
 }
-
-
-
-
 
