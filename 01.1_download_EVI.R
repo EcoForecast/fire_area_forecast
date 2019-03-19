@@ -1,5 +1,5 @@
 # This script is going to download the MODIS EVI/FIRE and VIIRS data from the http server
-# -- MOD13A2 MOD14A2 VNR14A2
+# -- MOD13A2
 # translate the matlab code to the R code
 rm(list = ls())
 
@@ -43,7 +43,7 @@ if(iyear == 2000){
 accept_tile_string <- "*h29v12*.hdf"
 
 # data temporal resolution
-interval <- 8
+interval <- 16
 
 idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
@@ -58,20 +58,20 @@ for(icomp in 5:10){
     this_day = as.numeric(format(this_date,'%d'))
     date_str = sprintf('%04d.%02d.%02d', this_year, this_month, this_day)
     
-    save_root = sprintf('/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/%04d/%03d/', 
-                       iyear, idoy)
-  
+    save_root = sprintf('/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD13A2/%04d/%03d/', 
+                        iyear, idoy)
+    
     
     if(dir.exists(save_root) == F){
       dir.create(file.path(save_root), recursive = TRUE)
     }
     setwd(save_root)
     
-    cmd = sprintf('wget --user yingtong_zhang --password zyt921113TT -A %s -r -nH -np -nv --cut-dirs=4 https://e4ftl01.cr.usgs.gov/MOLT/MOD14A2.006/%s/', accept_tile_string, date_str)
+    cmd = sprintf('wget --user yingtong_zhang --password zyt921113TT -A %s -r -nH -np -nv --cut-dirs=4 https://e4ftl01.cr.usgs.gov/MOLT/MOD13A2.006/%s/', accept_tile_string, date_str)
     
     system(cmd)
     fprintf('YEAR=%04d,Idoy=%03d,Icomp=%02d done!\n',iyear,idoy,icomp)
-
+    
   }
   
 }
