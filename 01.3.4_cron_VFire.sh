@@ -9,4 +9,4 @@
 
 module purge
 module load R/R-3.1.1
-Rscript /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.1_download_EVI.R
+Rscript /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.1_download_VFire.R
