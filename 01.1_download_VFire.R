@@ -67,7 +67,7 @@ for(icomp in 33:120){
     }
     setwd(save_root)
     
-    cmd = sprintf('wget --user yingtong_zhang --password zyt921113TT -A %s -r -nH -np -nv --cut-dirs=4 https://e4ftl01.cr.usgs.gov/VIIRS/VNR14A1.001/%s/', accept_tile_string, date_str)
+    cmd = sprintf('wget --user yingtong_zhang --password zyt921113TT -A %s -r -nH -np -nv --cut-dirs=4 https://e4ftl01.cr.usgs.gov/VIIRS/VNP14A1.001/%s/', accept_tile_string, date_str)
     
     system(cmd)
     fprintf('YEAR=%04d,Idoy=%03d,Icomp=%02d done!\n',iyear,idoy,icomp)
