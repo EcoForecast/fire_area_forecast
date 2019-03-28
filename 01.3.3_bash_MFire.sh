@@ -8,5 +8,5 @@
 #$ -pe omp 8
 
 module purge
-module load R/R-3.1.1
+module load R
 Rscript /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.1_download_MFire.R
