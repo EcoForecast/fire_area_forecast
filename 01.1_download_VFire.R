@@ -58,7 +58,7 @@ for(icomp in 33:120){
     this_day = as.numeric(format(this_date,'%d'))
     date_str = sprintf('%04d.%02d.%02d', this_year, this_month, this_day)
     
-    save_root = sprintf('/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNR14A1/%04d/%03d/', 
+    save_root = sprintf('/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/%04d/%03d/', 
                         iyear, idoy)
     
     
