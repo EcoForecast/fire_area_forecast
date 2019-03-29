@@ -17,7 +17,7 @@ Fire <-" model {
   
   
   ### Data model / Observation error
-  for ( i in 2:N){
+  for ( i in 1:N){
   y[i]~ dnorm(x[i],tau_precip) # Precipitation
   y_2[i]~ dnorm(x[i],tau_temp) # Temp
   y_3[i]~ dnorm(x[i],tau_evi) # Evi
@@ -58,6 +58,9 @@ Fire <-" model {
   data$v_0 <- 1
   data$N <- 100
   y=list(1:100)
+  y_2=list(1:100)
+  y_3=list(1:100)
+  mu=list(1:100)
   nchain = 3
   inits_fire <- list()
   
