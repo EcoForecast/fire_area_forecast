@@ -3,7 +3,7 @@
 #setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
 #.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
-.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
+#.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
 
 #install.packages("googlesheets", repos='http://cran.us.r-project.org', dependencies = TRUE)
 #install.packages("googleAuthR", repos='http://cran.us.r-project.org')
@@ -264,6 +264,8 @@ lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
 day <- format(start_date, "%Y%m%d")
+#test_day <- "2019-03-22 12:00:00 EDT"
+#day <- "20190322"
 outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
@@ -315,10 +317,12 @@ write.csv(precipitation, paste(outfolder,day,"_", "full_ensemble_precipitation.c
 #  for now, just two numbers. 
 #  We can incorperate all the ensemble members/ hours more formally when we write the model.
 eight_day_max_temp <- max(tempurature[,-1])
-eight_day_mean_precip <- mean(precipitation[,-1])
+precipitation <- colMeans(precipitation[,-1])
+
+eight_day_mean_precip <- mean(precipitation)
 
 current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
 
 ## Write out results
-write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
+write.csv2(current_meteorology, paste(outfolder,day, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
 
