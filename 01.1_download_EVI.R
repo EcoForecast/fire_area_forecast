@@ -49,7 +49,7 @@ idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
 
 # download data
-for(icomp in 5:10){
+for(icomp in 3:10){
   if((icomp >= s_icomp) & (icomp <= e_icomp)){
     idoy = (icomp - 1) * interval + 1
     this_date = starting_date + (icomp-1) * interval
