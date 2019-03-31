@@ -16,7 +16,7 @@ Basically we are going to forecast the _active fire_ by 8-Day, using two fire pr
 1. Run 01.x codes in sequence, get target data downloaded to the group's GEO shared directory.
  - the starting date is Feb 2nd, 2019
  - the study area is H29 V12 in MODIS tile
- - data visualization can be done in qgis or bash
+ - data visualization for GEFs data will be done in R; for VIIRS and MODIS data will be done with qgis or bash
 
 ## Contact Information
 - Vivien Chen: [vchen2@bu.edu]
