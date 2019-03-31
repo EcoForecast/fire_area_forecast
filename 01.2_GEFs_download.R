@@ -258,17 +258,19 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+start_date <- "2019-03-14 17:42:43 EDT" # for local debugigng
+test_day <- "2019-03-14 12:00:00 EDT" # for local debugging
+day <- "20190314"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
-start_date <- Sys.time()
-day <- format(start_date, "%Y%m%d")
-#test_day <- "2019-03-22 12:00:00 EDT"
-#day <- "20190322"
-outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+#start_date <- Sys.time()
+#day <- format(start_date, "%Y%m%d")
 
-download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
+#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+
+download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename, start_date = test_day)
 
 ###### Create a simple to interpret csv from ensemble .nc files
 ## How many numbers will there be, based on the number of days requested
@@ -276,6 +278,7 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
+days_pattern <- paste(format(start_date, "%Y-%m-%d"))
 flist_8_days <- flist_8_days[grep(format(start_date, "%Y-%m-%d"), flist_8_days)]
 
 day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
