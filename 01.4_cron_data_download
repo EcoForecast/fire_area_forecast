@@ -1,0 +1,6 @@
+MAILTO=shijuan@bu.edu
+SGE_ROOT=/usr/local/sge/sge_root 
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.1_bash_GEFs_download.sh
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.2_bash_EVI.sh
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.3_bash_MFire.sh
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.4_bash_VFire.sh
