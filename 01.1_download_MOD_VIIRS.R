@@ -1,5 +1,5 @@
 # This script is going to download the MODIS EVI/FIRE and VIIRS data from the http server
-# --MOD14A2
+# -- MOD13A2 MOD14A2 VNR14A2
 # translate the matlab code to the R code
 rm(list = ls())
 
@@ -32,13 +32,13 @@ iyear = 2019
 # data starting from Feburary of 2000
 if(iyear == 2000){
   s_icomp = 4
-  e_icomp = 46
+  e_icomp = 23
 } else if(iyear == 2019){
   s_icomp = 1
-  e_icomp = 20
+  e_icomp = 10
 } else{
   s_icomp = 1
-  e_icomp = 46
+  e_icomp = 23
 }
 accept_tile_string <- "*h29v12*.hdf"
 
@@ -49,7 +49,7 @@ idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
 
 # download data
-for(icomp in 5:15){
+for(icomp in 5:10){
   if((icomp >= s_icomp) & (icomp <= e_icomp)){
     idoy = (icomp - 1) * interval + 1
     this_date = starting_date + (icomp-1) * interval

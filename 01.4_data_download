@@ -1,0 +1,4 @@
+MAILTO=shijuan@bu.edu
+SGE_ROOT=/usr/local/sge/sge_root 
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.2_cron_MODIS_VIRIS_download.sh
+30 18 * * 7 /usr/local/bin/qsub /usr3/graduate/shijuan/Desktop/fire_area_forecast/01.3.1_cron_GEFs_download.sh
