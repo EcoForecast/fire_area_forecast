@@ -40,7 +40,7 @@ if(iyear == 2000){
   s_icomp = 1
   e_icomp = 366
 }
-accept_tile_string <- "*h29v12*.hdf"
+accept_tile_string <- "*h29v12*.h5"
 
 # data temporal resolution
 interval <- 1

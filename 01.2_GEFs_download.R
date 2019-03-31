@@ -1,18 +1,21 @@
-# GEO RUN: 
-setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
+#GEO RUN: 
+
+#setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
 #.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
-.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
+#.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
 
 #install.packages("googlesheets", repos='http://cran.us.r-project.org', dependencies = TRUE)
 #install.packages("googleAuthR", repos='http://cran.us.r-project.org')
 install.packages("XML", repos='http://cran.us.r-project.org' )
 install.packages("stringi", repos='http://cran.us.r-project.org')
 install.packages('curl', repos='http://cran.us.r-project.org')
-install.packages("digest")
+install.packages("digest", repos='http://cran.us.r-project.org')
 install.packages("udunits2",repos='http://cran.us.r-project.org', configure.args = "--with-udunits2-lib=/share/pkg/udunits/2.2.20/install/lib --with-udunits2-include=/share/pkg/udunits/2.2.20/install/include")
 install.packages("ncdf4",repos='http://cran.us.r-project.org')
-install.packages("purrr")
+install.packages("rlang", repos = 'http://cran.us.r-project.org')
+install.packages("purrr", repos='http://cran.us.r-project.org')
+install.packages("Rcpp", repos='http://cran.us.r-project.org')
 install.packages("tidyselect", repos='http://cran.us.r-project.org')
 install.packages("dplyr", repos='http://cran.us.r-project.org')
 install.packages('rnoaa', repos='http://cran.us.r-project.org')
@@ -41,7 +44,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
     end_date = end_date - lubridate::hours(2)
   }
   
-
+  
   #Set the end forecast date (default is the full 16 days)
   if (end_date > start_date + lubridate::days(16)) {
     end_date = start_date + lubridate::days(16)
@@ -67,8 +70,8 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   #We do want Sys.Date() here - NOAA makes data unavaliable days at a time, not forecasts at a time.
   NOAA_GEFS_Start_Date = as.POSIXct(Sys.Date(), tz="UTC") - lubridate::days(11)  #Subtracting 11 days is correct, not 12.
   
-
-
+  
+  
   #################################################
   #NOAA variable downloading
   #Uses the rnoaa package to download data
@@ -133,17 +136,17 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   #as a matrix; the different cases must be processed with different loops.
   #(The specific corner case in which a vector would be generated is if only one hour is requested; for example, 
   #only the data at time_idx 1, for example).
- 
- # rh2qair <-  function (rh, T, press = 101325) 
-# {
-#  stopifnot(T[!is.na(T)] >= 0)
-#  Tc <- udunits2::ud.convert(T, "K", "degC")
-#    es <- 6.112 * exp((17.67 * Tc)/(Tc + 243.5))
-#    e <- rh * es
-#    p_mb <- press/100
-#    qair <- (0.622 * e)/(p_mb - (0.378 * e))
-#    return(qair)
-#  }
+  
+  # rh2qair <-  function (rh, T, press = 101325) 
+  # {
+  #  stopifnot(T[!is.na(T)] >= 0)
+  #  Tc <- udunits2::ud.convert(T, "K", "degC")
+  #    es <- 6.112 * exp((17.67 * Tc)/(Tc + 243.5))
+  #    e <- rh * es
+  #    p_mb <- press/100
+  #    qair <- (0.622 * e)/(p_mb - (0.378 * e))
+  #    return(qair)
+  #  }
   
   
   # if (as.logical(nrow(humid_data))) {
@@ -159,7 +162,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
   #  }
   
   
-
+  
   
   #Update the noaa_data list with the correct data
   #noaa_data[[humid_index]] <- humid_data
@@ -223,7 +226,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
     
     #Each file will go in its own folder.
     #if (!dir.exists(ensemble_folder)) {
-     # dir.create(ensemble_folder, recursive=TRUE, showWarnings = TRUE)
+    # dir.create(ensemble_folder, recursive=TRUE, showWarnings = TRUE)
     #}
     
     flname = file.path(ensemble_folder, paste(identifier, "nc", sep = "."))
@@ -255,15 +258,19 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+start_date <- "2019-03-14 17:42:43 EDT" # for local debugigng
+test_day <- "2019-03-14 12:00:00 EDT" # for local debugging
+day <- "20190314"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
-start_date <- Sys.time()
-day <- format(start_date, "%Y%m%d")
-outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+#start_date <- Sys.time()
+#day <- format(start_date, "%Y%m%d")
 
-download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename)
+#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+
+download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename, start_date = test_day)
 
 ###### Create a simple to interpret csv from ensemble .nc files
 ## How many numbers will there be, based on the number of days requested
@@ -271,6 +278,7 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
+days_pattern <- paste(format(start_date, "%Y-%m-%d"))
 flist_8_days <- flist_8_days[grep(format(start_date, "%Y-%m-%d"), flist_8_days)]
 
 day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
@@ -278,14 +286,27 @@ day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
 ## Setup the empty files
 tempurature <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
 precipitation <- matrix(data = NA, nrow = length(day_index), ncol =  length(flist_8_days))
+
+precipitation <- as.data.frame(precipitation)
+tempurature <- as.data.frame(tempurature)
+
 colnames(tempurature) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= "_") # Ensemble ID's 
 colnames(precipitation) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= "_") # Ensemble ID's 
 
 
 for (i in seq_along(flist_8_days)){
   tmp_nc <- nc_open( paste(outfolder, flist_8_days[i], sep = ""))
-  precipitation[,i] <- ncvar_get(tmp_nc, "precipitation_flux") 
-  tempurature[,i] <- ncvar_get(tmp_nc, "air_temperature")
+  precip_tmp <- ncvar_get(tmp_nc, "precipitation_flux")
+  temp_tmp <- ncvar_get(tmp_nc, "air_temperature")
+  
+  if(length(precip_tmp) != length(day_index)){
+    diff <- length(day_index) - length(precip_tmp) # length(day_index) should be maximum 32
+    precip_tmp <- c(precip_tmp, rep(NA, diff))
+    temp_tmp <- c(temp_tmp, rep(NA, diff))
+  }
+  
+  precipitation[,i] <-  precip_tmp
+  tempurature[,i] <- temp_tmp
   nc_close(tmp_nc)
 }
 
@@ -299,9 +320,12 @@ write.csv(precipitation, paste(outfolder,day,"_", "full_ensemble_precipitation.c
 #  for now, just two numbers. 
 #  We can incorperate all the ensemble members/ hours more formally when we write the model.
 eight_day_max_temp <- max(tempurature[,-1])
-eight_day_mean_precip <- mean(precipitation[,-1])
+precipitation <- colMeans(precipitation[,-1])
+
+eight_day_mean_precip <- mean(precipitation)
 
 current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
 
 ## Write out results
-write.csv2(current_meteorology, paste(outfolder, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
+write.csv2(current_meteorology, paste(outfolder,day, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
+
