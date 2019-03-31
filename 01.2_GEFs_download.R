@@ -258,15 +258,16 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-start_date <- "2019-03-14 17:42:43 EDT" # for local debugigng
-test_day <- "2019-03-14 12:00:00 EDT" # for local debugging
-day <- "20190314"
+#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
+#start_date <- "2019-03-30 12:00:00 UTC" # for local debugigng
+#test_day <- "2019-03-30 12:00:00 EDT" # for local debugging
+#day <- "20190330"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
-#start_date <- Sys.time()
-#day <- format(start_date, "%Y%m%d")
+start_date <- Sys.time()
+start_date <- as.POSIXct(start_date)
+day <- format(start_date, "%Y%m%d")
 
 #outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
@@ -278,8 +279,8 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
-days_pattern <- paste(format(start_date, "%Y-%m-%d"))
-flist_8_days <- flist_8_days[grep(format(start_date, "%Y-%m-%d"), flist_8_days)]
+days_pattern <- paste(format(start_date, "%Y-%m-%dT%H:%M"), ".2019-", sep="")
+flist_8_days <- flist_8_days[grep(days_pattern, flist_8_days)]
 
 day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
 
