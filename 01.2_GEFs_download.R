@@ -268,8 +268,7 @@ lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
 day <- format(start_date, "%Y%m%d")
-
-#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
+outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
 download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename, start_date = start_date)
 
