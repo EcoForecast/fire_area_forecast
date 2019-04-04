@@ -1,4 +1,11 @@
 library(rjags)
+
+## Reading in data
+data_path <- "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/summary_data.csv"
+
+met <- read.csv(data_path)
+
+
 Fire_timeseries <-" model {
 
  ### priors
@@ -9,6 +16,8 @@ Fire_timeseries <-" model {
  tau_modis ~ dgamma(mod_1, mod_2)
  #sigma ~dgamma(s_1, s_2)
  x[1] ~ dnorm(mu1, v_0)
+
+ 
  
  
  ###Observation error
@@ -18,9 +27,11 @@ Fire_timeseries <-" model {
  
  ### Process model for Fire
  for(t in 2:N) {
+
  mu[t] <- x[t-1]+ beta_precip*y[t] + beta_temp*y_2[t] #+beta_IC
  theta[t] <- log(mu[t])
  x[t] ~ dpois(theta[t]) 
+
  }
  }
  "
@@ -34,7 +45,7 @@ Fire_timeseries <-" model {
  data$N<- 10
  
  ### Priors
- data$r_0<- -1 ## Probably a negative relationship
+ data$r_0<- -3 ## Probably a negative relationship -- likely more influential than temperature 
  data$v_r<- 1/10 ## Unsure how much uncertainty 
  data$k_0<- 3 # Probably positive relationship with temperature
  data$v_k<- 0.5 # no large SD
@@ -46,6 +57,7 @@ Fire_timeseries <-" model {
  data$v_0<- 1/3000000  # Make sure varience is roughly max the area of the park (1151770000 m^2), and min 0
  data$mod_1 <- 1
  data$mod_2 <- 1
+
 
  inits_tess<-list() #
  inits_tess[[1]] <- list( sigma = 1)
