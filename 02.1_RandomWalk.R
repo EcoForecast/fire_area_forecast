@@ -1,10 +1,11 @@
 library(rjags)
 
 ## Reading in data
-data_path <- "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/summary_data.csv"
+GEFs_data_path <- "/Users/shijuanchen/Desktop/Spring_2019/GE585_Ecological_Forecasting/my_own_fork/fire_area_forecast/summary_data_8days.csv"
+met <- read.csv(GEFs_data_path)
 
-met <- read.csv(data_path)
-
+MFire_data_path <- "/Users/shijuanchen/Desktop/Spring_2019/GE585_Ecological_Forecasting/my_own_fork/fire_area_forecast/MODIS_FireProduct.csv"
+mfire <- read.csv(MFire_data_path)
 
 Fire_timeseries <-" model {
 
@@ -38,10 +39,10 @@ Fire_timeseries <-" model {
  
  ### data
  data<-list()
- data$y <- rnorm(10, 10) # Precip
- data$y_2 <- rnorm(10, 200) # Temp
+ data$y <- c(1.21982473898761e-05, 5.98551858393494e-05, 2.05873840757743e-05) # Precip
+ data$y_2 <- c(303.670013427734, 300.600006103516, 298.700012207031) # Temp
  #data$y_3 <- rnorm(10, 10) # Evi
- data$y_modis <- rnorm(10, 50000) # modis 
+ data$y_modis <- c(2.45e+08, 2.54e+08) # modis 
  data$N<- 10
  
  ### Priors
