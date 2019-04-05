@@ -260,18 +260,17 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 
 #outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
 #start_date <- "2019-03-30 12:00:00 UTC" # for local debugigng
+#start_date <- as.POSIXct(start_date)
 #test_day <- "2019-03-30 12:00:00 EDT" # for local debugging
 #day <- "20190330"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
 start_date <- Sys.time()
-start_date <- as.POSIXct(start_date)
 day <- format(start_date, "%Y%m%d")
+outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
-#outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
-
-download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename, start_date = test_day)
+download.NOAA_GEFS(outfolder= outfolder, lat.in =lat.in, lon.in= lon.in, sitename = sitename, start_date = start_date)
 
 ###### Create a simple to interpret csv from ensemble .nc files
 ## How many numbers will there be, based on the number of days requested
