@@ -83,3 +83,11 @@ Fire_timeseries <-" model {
  
  plot(jags.out)
  
+ gelman.diag(jags.out) #Using GBR statistics to test if the model has converged. 
+ GBR <- gelman.plot(jags.out)
+ burnin = 1000 # remove the first 500 steps
+ jags.burn <- window(jags.out,start=burnin)  ## remove burn-in
+ plot(jags.burn)                             ## check diagnostics post burn-in
+ summary(jags.burn)
+ out <- as.matrix(jags.burn)
+ 
