@@ -1,11 +1,18 @@
 library(rjags)
 
 ## Reading in data
-data_path <- "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/summary_data.csv"
-
-met <- read.csv(data_path)
-
-
+GEFs_data_path <- "/Users/shijuanchen/Desktop/Spring_2019/GE585_Ecological_Forecasting/my_own_fork/fire_area_forecast/summary_data_8days.csv"
+met <- read.csv(GEFs_data_path, header=FALSE)
+met_cp = met[complete.cases(met),]
+date_g = met_cp[1:2,2]
+temp = met_cp[1:2,3]
+precip = met_cp[1:2,4]
+MFire_data_path <- "/Users/shijuanchen/Desktop/Spring_2019/GE585_Ecological_Forecasting/my_own_fork/fire_area_forecast/MODIS_FireProduct.csv"
+mfire <- read.csv(MFire_data_path)
+date_m = mfire[5:6,2]
+mfire_cp = mfire[complete.cases(mfire),]
+mf = mfire_cp[5:6,3]
+#mmodis_fire <- []
 Fire_timeseries <-" model {
 
  ### priors
@@ -38,11 +45,11 @@ Fire_timeseries <-" model {
  
  ### data
  data<-list()
- data$y <- rnorm(10, 10) # Precip
- data$y_2 <- rnorm(10, 200) # Temp
+ data$y <- precip # Precip
+ data$y_2 <- temp # Temp
  #data$y_3 <- rnorm(10, 10) # Evi
- data$y_modis <- rnorm(10, 50000) # modis 
- data$N<- 10
+ data$y_modis <- mf # modis 
+ data$N<- 2
  
  ### Priors
  data$r_0<- -3 ## Probably a negative relationship -- likely more influential than temperature 
@@ -75,4 +82,12 @@ Fire_timeseries <-" model {
  
  
  plot(jags.out)
+ 
+ gelman.diag(jags.out) #Using GBR statistics to test if the model has converged. 
+ GBR <- gelman.plot(jags.out)
+ burnin = 1000 # remove the first 500 steps
+ jags.burn <- window(jags.out,start=burnin)  ## remove burn-in
+ plot(jags.burn)                             ## check diagnostics post burn-in
+ summary(jags.burn)
+ out <- as.matrix(jags.burn)
  
