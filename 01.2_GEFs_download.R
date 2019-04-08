@@ -3,7 +3,7 @@
 #setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
 #.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
-#.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
+.llibPaths("/usr3/graduate/tmccabe/mccabete/R/library")
 
 #install.packages("googlesheets", repos='http://cran.us.r-project.org', dependencies = TRUE)
 #install.packages("googleAuthR", repos='http://cran.us.r-project.org')
