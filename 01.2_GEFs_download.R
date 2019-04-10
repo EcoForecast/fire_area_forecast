@@ -259,7 +259,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 
 
 #outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-start_date <- "2019-04-05 12:00:00 UTC" # for local debugigng
+start_date <- "2019-04-07 12:00:00 UTC" # for local debugigng
 start_date <- as.POSIXct(start_date)
 #test_day <- "2019-03-30 12:00:00 EDT" # for local debugging
 #day <- "20190330"
