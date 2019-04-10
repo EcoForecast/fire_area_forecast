@@ -1,6 +1,7 @@
 library(rjags)
 
 ## Reading in data
+
 GEFs_data_path <- "/Users/shijuanchen/Desktop/Spring_2019/GE585_Ecological_Forecasting/my_own_fork/fire_area_forecast/summary_data_8days.csv"
 met <- read.csv(GEFs_data_path, header=FALSE)
 met_cp = met[complete.cases(met),]

@@ -33,11 +33,12 @@ for (f in dir){
   #print(date)
   #print(data_out)
   #print(date)
-  if((as.numeric(date)-as.numeric('20190306'))%%8==0){
+  timeDiff <- lubridate::as_date(as.character(date)) - lubridate::as_date('20190306') # Convertget difference in days
+  timeDiff <- as.numeric(timeDiff) 
+  if(timeDiff%%8==0){
     data_out2[i,1] = data_out[i,1] 
     data_out2[i,2] = data_out[i,2] 
     data_out2[i,3] = data_out[i,3] 
-    print(date)
   }
 }  
 

@@ -3,23 +3,23 @@
 #setwd("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/")
 
 #.libPaths("/usr2/postdoc/kzarada/R/x86_64-pc-linux-gnu-library/3.5")
-.llibPaths("/usr3/graduate/tmccabe/mccabete/R/library")
+.libPaths("/usr3/graduate/tmccabe/mccabete/R/library")
 
 #install.packages("googlesheets", repos='http://cran.us.r-project.org', dependencies = TRUE)
 #install.packages("googleAuthR", repos='http://cran.us.r-project.org')
-install.packages("XML", repos='http://cran.us.r-project.org' )
-install.packages("stringi", repos='http://cran.us.r-project.org')
-install.packages('curl', repos='http://cran.us.r-project.org')
-install.packages("digest", repos='http://cran.us.r-project.org')
-install.packages("udunits2",repos='http://cran.us.r-project.org', configure.args = "--with-udunits2-lib=/share/pkg/udunits/2.2.20/install/lib --with-udunits2-include=/share/pkg/udunits/2.2.20/install/include")
-install.packages("ncdf4",repos='http://cran.us.r-project.org')
-install.packages("rlang", repos = 'http://cran.us.r-project.org')
-install.packages("purrr", repos='http://cran.us.r-project.org')
-install.packages("Rcpp", repos='http://cran.us.r-project.org')
-install.packages("tidyselect", repos='http://cran.us.r-project.org')
-install.packages("dplyr", repos='http://cran.us.r-project.org')
-install.packages('rnoaa', repos='http://cran.us.r-project.org')
-install.packages('lubridate', repos='http://cran.us.r-project.org')
+#install.packages("XML", repos='http://cran.us.r-project.org' )
+#install.packages("stringi", repos='http://cran.us.r-project.org')
+#install.packages('curl', repos='http://cran.us.r-project.org')
+#install.packages("digest", repos='http://cran.us.r-project.org')
+#install.packages("udunits2",repos='http://cran.us.r-project.org', configure.args = "--with-udunits2-lib=/share/pkg/udunits/2.2.20/install/lib --with-udunits2-include=/share/pkg/udunits/2.2.20/install/include")
+#install.packages("ncdf4",repos='http://cran.us.r-project.org')
+#install.packages("rlang", repos = 'http://cran.us.r-project.org')
+#install.packages("purrr", repos='http://cran.us.r-project.org')
+#install.packages("Rcpp", repos='http://cran.us.r-project.org')
+#install.packages("tidyselect", repos='http://cran.us.r-project.org')
+#install.packages("dplyr", repos='http://cran.us.r-project.org')
+#install.packages('rnoaa', repos='http://cran.us.r-project.org')
+#install.packages('lubridate', repos='http://cran.us.r-project.org')
 
 library(ncdf4)
 
@@ -259,7 +259,7 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 
 
 #outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-#start_date <- "2019-03-30 12:00:00 UTC" # for local debugigng
+#start_date <- "2019-04-07 12:00:00 UTC" # for local debugigng
 #start_date <- as.POSIXct(start_date)
 #test_day <- "2019-03-30 12:00:00 EDT" # for local debugging
 #day <- "20190330"
@@ -278,8 +278,8 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
-days_pattern <- paste(format(start_date, "%Y-%m-%dT%H:%M"), ".2019-", sep="")
-flist_8_days <- flist_8_days[grep(days_pattern, flist_8_days)]
+#days_pattern <- paste(format(start_date, "%Y-%m-%dT%H:%M"), ".2019-", sep="")
+#flist_8_days <- flist_8_days[grep(days_pattern, flist_8_days)]
 
 day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
 
