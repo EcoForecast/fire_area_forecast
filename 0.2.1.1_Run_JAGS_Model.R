@@ -9,15 +9,17 @@
 library(rjags, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
 source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/01.2.1_data__helper_functions.R")
 
-run_JAGS_model <- function(ensemble_name = NA, n.iter = 500000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis){
+run_JAGS_model <- function(ensemble_name = NA, n.iter = 5000000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis){
 
 ## Get Number of Days of availible data
 
-GEF_days <- get_days(data_type = "GEFS") # Number of days with Temp and Precip (how many days we can forcast into the future. We may want to limit so that convergence is easier. )
-modis_days <- get_days(data_type = "MOD14A2")
-forecast_days <- length(GEF_days) - length(modis_days)
+GEF_days <- get_days(data_type = "GEFS") # Number of days with Temp and Precip 
 
-N <- length(GEF_days) # Assuming we only want to forecast days with met assosiated with it
+modis_days <- get_days(data_type = "MOD14A2")
+#forecast_days <- length(GEF_days) - length(modis_days)
+GEF_days <- GEF_days[as.vector(GEF_days) == as.vector(modis_days)] # Number of days with Temp and Precip and overlap with MODIS day
+
+N <- length(modis_days) 
   
 #### Set up Model
 Fire_timeseries <-" model {
@@ -46,7 +48,7 @@ Fire_timeseries <-" model {
  }
  "
 #### Add NA's to modis products
-modis <- c(modis, rep(NA, forecast_days))
+#modis <- c(modis, rep(NA, forecast_days))
 
 #### Fill in data 
 data<-list()
@@ -78,7 +80,7 @@ j.model   <- jags.model (file = textConnection(Fire_timeseries),
                          n.chains = 3)
 
 jags.out   <- coda.samples (model = j.model,
-                            variable.names = c("x"),
+                            variable.names = c("x", "beta_precip", "beta_temp"),
                             n.iter = n.iter)
 GBR <- gelman.plot(jags.out)
 burnin <- GBR$last.iter[tail(which(apply(GBR$shrink[,,2]>1.05,1,any)),1)+1]

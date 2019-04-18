@@ -5,6 +5,7 @@
 ##` @param data_path         The path to all data files
 ##` @day_interval            The number of days incorperated into a product
 ##` @description             This function checks data that is downloaded, and returns only the days that correspond to the day_interval. Will return a warning if today might contain data that hasn't been downloaded. 
+library(lubridate, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
 get_days <- function(first_date = '20190306', most_recent_date = Sys.time(),day_interval = 8, data_type = "GEFS", data_path = '/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/'){
   
   full_data_path <- paste(data_path, data_type, sep = "") # Make data_path type specific
@@ -15,12 +16,12 @@ get_days <- function(first_date = '20190306', most_recent_date = Sys.time(),day_
   ### IF GEFS
   if(data_type == "GEFS"){
     dir <- list.dirs(full_data_path)[-1]
-    
+    len = length(dir)
     dates <- rep(NA, len)
     
     
     ## Begin file-based loop
-    len = length(dir)
+    
     i=0
     for (f in dir){
       i=i+1
@@ -42,7 +43,7 @@ get_days <- function(first_date = '20190306', most_recent_date = Sys.time(),day_
     lubri_format <- lubridate::as_date(dates)
     most_recent_data <- max(lubri_format) 
     
-    timeDiff <- recent_data_lubri - first_data_lubri # check to see if we are missing most recent data
+    timeDiff <- recent_date_lubri - first_data_lubri # check to see if we are missing most recent data
     timeDiff <- as.numeric(timeDiff) 
     if((timeDiff %% day_interval) == 0){
       recent_day_is_usefull <- TRUE
