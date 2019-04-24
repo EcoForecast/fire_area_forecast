@@ -120,11 +120,6 @@ write.csv(data.frame(out),"MOD14A2.csv")
 infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/" 
 outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/"
 
-### here is a test. fire_data[26] stores number of fire pixels, fire_data[80] stores start date
-# fire_data <- paste0(infolder, "VNP14A1.A2019033.h29v12.001.2019035010349.h5")
-# gdalinfo(fire_data)[26]
-# gdalinfo(fire_data)[80]
-
 sub.folders <- list.dirs(infolder, recursive=TRUE)[-1]
 
 fire.files <- list()
@@ -139,22 +134,26 @@ for (i in 1:length(fire.list)){
   image_name = fire.list[i][[1]]
   image_dir = paste0(sub.folders[i], '/', image_name)  
   
-  fireArea <- as.numeric(gsub("FirePix=","",gdalinfo(image_dir)[26])) * 1000^2
-  startDate <- as.Date(gsub("StartDate=","",gdalinfo(image_dir)[80]))
+  fire_data <- get_subdatasets(image_dir)
+  gdal_translate(fire_data[1], dst_dataset = "VIIRS_fire.tif")
+  fire_raster <- raster("VIIRS_fire.tif")
+  fire_raster[fire_raster < 7] <- NA
+  pixel_freq <- freq(fire_raster)
+  fireArea <- (1440000 - pixel_freq[which(is.na(pixel_freq[,1])), 2]) * 375^2
+  
+  startDate <- as.Date(gsub("RangeBeginningDate=","",gdalinfo(image_dir)[67]))
   out[i,1] <- format(startDate,format="%Y-%m-%d")
   out[i,2] <- fireArea
   print(i)
 }
 
-for(i in 1:length(days)){
-  
-  directory <- paste0(0, days[i],'/', sep='')
-  file <- paste0(directory,dir(path = directory))
-  fireArea <- as.numeric(gsub("FirePix=","",gdalinfo(file)[26])) * 1000^2
-  startDate <- as.Date(gsub("StartDate=","",gdalinfo(file)[80]))
-  out[i,1] <- format(startDate,format="%Y-%m-%d")
-  out[i,2] <- fireArea
-}
+
+
+# colnames(out_tab) <- c("date", "mean_EVI")
+# csv_filename <- paste0(out_dir, "EVI_data.csv")
+# 
+# write.csv(out_tab, csv_filename)
+
 
 setwd(outfolder)
 write.csv(data.frame(out),"VNP14A1.csv")
