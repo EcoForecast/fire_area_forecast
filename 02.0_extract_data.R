@@ -81,7 +81,7 @@ library(raster)
 
 # arguments provided as in and out folders
 infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/" 
-outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/"
+outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/"
 
 ### here is a loop to read in all hdf datas and write out a single csv containing:
 # 1. the starting date of record
@@ -109,4 +109,51 @@ for (i in 1:length(fire.list)){
 }
 
 setwd(outfolder)
-write.csv(data.frame(out),"MOD14A2_2019.csv")
+write.csv(data.frame(out),"MOD14A2.csv")
+
+
+
+## ----------------------------------------------------------------------------------##
+### process on the VIIRS
+
+# arguments provided as in and out folders
+infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/" 
+outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/"
+
+sub.folders <- list.dirs(infolder, recursive=TRUE)[-1]
+
+fire.files <- list()
+for (j in seq_along(sub.folders)) {
+  fire.files[[j]] <- dir(sub.folders[j],"\\.h5$")
+}
+#test <- lapply(evi.files, function(x) if(identical(x, character(0))) NA_character_ else x)
+fire.list <- fire.files[lapply(fire.files,length)>0]
+out <- matrix(NA,length(fire.list),2)
+
+for (i in 1:length(fire.list)){
+  image_name = fire.list[i][[1]]
+  image_dir = paste0(sub.folders[i], '/', image_name)  
+  
+  fire_data <- get_subdatasets(image_dir)
+  gdal_translate(fire_data[1], dst_dataset = "VIIRS_fire.tif")
+  fire_raster <- raster("VIIRS_fire.tif")
+  fire_raster[fire_raster < 7] <- NA
+  pixel_freq <- freq(fire_raster)
+  fireArea <- (1440000 - pixel_freq[which(is.na(pixel_freq[,1])), 2]) * 375^2
+  
+  startDate <- as.Date(gsub("RangeBeginningDate=","",gdalinfo(image_dir)[67]))
+  out[i,1] <- format(startDate,format="%Y-%m-%d")
+  out[i,2] <- fireArea
+  print(i)
+}
+
+
+
+# colnames(out_tab) <- c("date", "mean_EVI")
+# csv_filename <- paste0(out_dir, "EVI_data.csv")
+# 
+# write.csv(out_tab, csv_filename)
+
+
+setwd(outfolder)
+write.csv(data.frame(out),"VNP14A1.csv")
