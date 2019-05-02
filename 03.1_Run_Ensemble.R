@@ -3,7 +3,7 @@
 
 library(rjags, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
 
-source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/0.2.1.1_Run_JAGS_Model.R")
+source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/02.1.1_Run_JAGS_Model.R")
 
 source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/01.2.1_data__helper_functions.R")
 ### Read in Modis data
