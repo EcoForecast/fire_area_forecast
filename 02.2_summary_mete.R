@@ -10,9 +10,9 @@ data_out2 = matrix(NA, nrow=len-1, ncol=3)
 i=0
 for (f in dir){
   i=i+1
-  if (i==len){  # right now the 0328 data is missing
-    break
-  }
+  #if (i==len){  # right now the 0328 data is missing
+   # break
+  #}
   #print(f)
   date = basename(f)
   #csv_path = list.files(dir=f, pattern='*.csv')
