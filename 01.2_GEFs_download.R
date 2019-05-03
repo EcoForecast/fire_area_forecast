@@ -21,12 +21,20 @@
 #install.packages('rnoaa', repos='http://cran.us.r-project.org')
 #install.packages('lubridate', repos='http://cran.us.r-project.org')
 
-library(ncdf4)
+library(ncdf4, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library") #lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library"
 
 #library(googlesheets)
 #library(googleAuthR)
-library(rnoaa)
-library(lubridate)
+library(XML, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(curl, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(dplyr, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(scales, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(lazyeval, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(lubridate, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library") #lubridate must be before rnoaa
+library(tidyr, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(xml2, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
+library(rnoaa) #must be my library
+
 library(udunits2)
 
 #function to download GEFS
@@ -259,10 +267,10 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 
 
 #outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-#start_date <- "2019-04-07 12:00:00 UTC" # for local debugigng
-#start_date <- as.POSIXct(start_date)
-#test_day <- "2019-03-30 12:00:00 EDT" # for local debugging
-#day <- "20190330"
+#start_date <- "2019-04-30 12:00:00 EDT" # for local debugigng
+#start_date <- as.POSIXct(start_date) # Doesn't work for local debudding but IF put wrong day (ie 31st on month with only 30 days)
+#test_day <- "2019-04-30 12:00:00 EDT" # for local debugging
+#day <- "20190430"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
