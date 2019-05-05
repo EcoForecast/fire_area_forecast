@@ -10,9 +10,9 @@ data_out2 = matrix(NA, nrow=len-1, ncol=3)
 i=0
 for (f in dir){
   i=i+1
-  if (i==len){  # right now the 0328 data is missing
-    break
-  }
+  #if (i==len){  # right now the 0328 data is missing
+   # break
+  #}
   #print(f)
   date = basename(f)
   #csv_path = list.files(dir=f, pattern='*.csv')
@@ -33,8 +33,10 @@ for (f in dir){
   #print(date)
   #print(data_out)
   #print(date)
-  timeDiff <- lubridate::as_date(as.character(date)) - lubridate::as_date('20190306') # Convertget difference in days
-  timeDiff <- as.numeric(timeDiff) 
+ 
+ # timeDiff <- lubridate::as_date(as.character(date)) - lubridate::as_date('20190306') # Convertget difference in days
+  timeDiff <- as.Date(date,format='%Y%m%d') - as.Date('20190306',format='%Y%m%d') 
+   timeDiff <- as.numeric(timeDiff) 
   if(timeDiff%%8==0){
     data_out2[i,1] = data_out[i,1] 
     data_out2[i,2] = data_out[i,2] 
@@ -42,5 +44,5 @@ for (f in dir){
   }
 }  
 
-write.table(data_out, file=output_csv, col.names=FALSE, sep=',')
+write.table(data_out, file=output_csv1, col.names=FALSE, sep=',')
 write.table(data_out2, file=output_csv2, col.names=FALSE, sep=',')
