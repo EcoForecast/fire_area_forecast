@@ -27,7 +27,7 @@ library(arules)
 
 # give the year of data wanted be downloading
 # could write to a function if required multiple years
-iyear = 2019
+iyear = 2017
 
 # data starting from Feburary of 2000
 if(iyear == 2000){
@@ -49,7 +49,7 @@ idate <- paste0(as.character(iyear), "/01/01")
 starting_date <- as.Date(idate)
 
 # download data
-for(icomp in 5:15){
+for(icomp in 1:46){
   if((icomp >= s_icomp) & (icomp <= e_icomp)){
     idoy = (icomp - 1) * interval + 1
     this_date = starting_date + (icomp-1) * interval
