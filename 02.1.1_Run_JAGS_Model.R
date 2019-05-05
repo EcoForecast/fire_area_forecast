@@ -9,7 +9,7 @@
 library(rjags, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
 #source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/01.2.1_data__helper_functions.R")
 
-run_JAGS_model <- function(ensemble_name = NA, n.iter = 50000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs = NULL){
+run_JAGS_model <- function(ensemble_name = NA, n.iter = 500000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs = NULL){
 
 ## Get Number of Days of availible data
 #GEF_days <- get_days(data_type = "GEFS") # Number of days with Temp and Precip 
@@ -59,7 +59,7 @@ data<-list()
 data$y <- precip # Precip
 data$y_2 <- temp # Temp
 data$y_modis <- modis # modis 
-data$N<- N #total number of days. Included forcast_days
+data$N<- 92 # N #total number of days. 
 
 ### Priors
 data$r_0<- -3 ## Probably a negative relationship -- likely more influential than temperature 
@@ -70,7 +70,7 @@ data$mu1<-172000000  # Modis Burn area from feb second. Feb second is too early 
 #data$v_0<- 10 
 #data$mod_1 <- 10
 #data$mod_2 <- 1
-data$sigmaIC <- 0.001
+data$sigmaIC <- 0.01
 data$s_1 <- 10
 data$s_2 <- 1
 #data$start_viirs
