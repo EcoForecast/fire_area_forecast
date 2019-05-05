@@ -12,8 +12,9 @@ library(ecoforecastR)
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
 modis <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/MOD14A2.csv")$X2
 modis_days <- get_days(data_type = "MOD14A2")
-dates <- format(as.POSIXct(modis$X1), "%Y%m%d"
-load("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data//20190419.ensemble_1.convergence_failed_GBR_test.JAGS_run.Rdata")
+dates <- format(as.POSIXct(modis$X1), "%Y%m%d")
+
+load("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/20190505.First_historical_fit_modis_only.convergence_passed_GBR_test.JAGS_run.Rdata")
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
 precip <- read.csv("summary_data_8days.csv")[,4]
 temp <- read.csv("summary_data_8days.csv")[,3]
