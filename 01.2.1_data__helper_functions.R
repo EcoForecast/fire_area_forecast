@@ -1,7 +1,7 @@
 ##` @title get_days       
 ##` @param first_data        date we started downloading data
 ##` @param most_recent_date  Present date 
-##` @param data_type         What data should be checked. Can look for "GEFS", or "MOD14A2"
+##` @param data_type         What data should be checked. Can look for "GEFS", "MOD14A2", or "VNP14A1"
 ##` @param data_path         The path to all data files
 ##` @day_interval            The number of days incorperated into a product
 ##` @description             This function checks data that is downloaded, and returns only the days that correspond to the day_interval. Will return a warning if today might contain data that hasn't been downloaded. 
@@ -77,10 +77,27 @@ get_days <- function(first_date = '20170101', most_recent_date = Sys.time(),day_
   dates <- as.matrix(dates)
     
   }
-  if(data_type != "MOD14A2" && data_type != "GEFS"){
+  
+  ### IF VIIRS
+  if(data_type == "VNP14A1"){
+    full_data_path <- paste(full_data_path, "/2019/VNP14A1.csv", sep="")
+    viirs_current <- read.csv(full_data_path)
+    viirs_current <- as.matrix(modis_current)
+    
+    ### Get dates in same format as GEFS. Not strictly nessisary. 
+    dates <- viirs_current[,2]
+    dates <- lubridate::as_date(dates)
+    dates <- dates[dates >= first_data_lubri]
+    
+    dates <- format(dates, "%Y%m%d")
+    dates <- na.omit(dates)
+    dates <- as.matrix(dates)
+    
+  }
+  if(data_type != "MOD14A2" && data_type != "GEFS"&& data_type != "VNP14A1"){
     stop("Only Modis and GEFS implemented")
   }
- 
+  
   return(dates)
 }
 
