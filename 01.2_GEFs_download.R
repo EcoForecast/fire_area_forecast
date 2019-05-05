@@ -267,14 +267,14 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 
 
 #outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-#start_date <- "2019-04-30 12:00:00 EDT" # for local debugigng
+#start_date <- "2019-05-01 12:00:00 EDT" # for local debugigng
 #start_date <- as.POSIXct(start_date) # Doesn't work for local debudding but IF put wrong day (ie 31st on month with only 30 days)
-#test_day <- "2019-04-30 12:00:00 EDT" # for local debugging
-#day <- "20190430"
+#test_day <- "2019-05-01 12:00:00 EDT" # for local debugging
+#day <- "20190501"
 lat.in <- -36.962324
 lon.in <- 149.455727
 sitename <- "Southeastern_national_forest"
-start_date <- Sys.time()
+start_date <-Sys.time()
 day <- format(start_date, "%Y%m%d")
 outfolder <- paste("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/GEFS/", day, "/",  sep = "")
 
@@ -286,8 +286,11 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
+flist_8_days <- flist_8_days[grep("*12:00", flist_8_days)]
 #days_pattern <- paste(format(start_date, "%Y-%m-%dT%H:%M"), ".2019-", sep="")
 #flist_8_days <- flist_8_days[grep(days_pattern, flist_8_days)]
+flist_8_days <- unique(flist_8_days)
+flist_8_days <- as.matrix(flist_8_days)
 
 day_index <- sort(rep(1:day_number, 4)) ## what day measurement came from
 
@@ -302,8 +305,8 @@ colnames(tempurature) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= 
 colnames(precipitation) <- paste(rep("ensemble", 21), as.character(c(1:21)), sep= "_") # Ensemble ID's 
 
 
-for (i in seq_along(flist_8_days)){
-  tmp_nc <- nc_open( paste(outfolder, flist_8_days[i], sep = ""))
+for (j in seq_along(flist_8_days)){
+  tmp_nc <- nc_open( paste(outfolder, flist_8_days[j], sep = ""))
   precip_tmp <- ncvar_get(tmp_nc, "precipitation_flux")
   temp_tmp <- ncvar_get(tmp_nc, "air_temperature")
   
@@ -313,8 +316,8 @@ for (i in seq_along(flist_8_days)){
     temp_tmp <- c(temp_tmp, rep(NA, diff))
   }
   
-  precipitation[,i] <-  precip_tmp
-  tempurature[,i] <- temp_tmp
+  precipitation[,j] <-  precip_tmp
+  tempurature[,j] <- temp_tmp
   nc_close(tmp_nc)
 }
 
@@ -327,13 +330,12 @@ write.csv(precipitation, paste(outfolder,day,"_", "full_ensemble_precipitation.c
 ## Aggrigate to some composite number (Will likely need to make more sophisticated)
 #  for now, just two numbers. 
 #  We can incorperate all the ensemble members/ hours more formally when we write the model.
-eight_day_max_temp <- max(tempurature[,-1])
-precipitation <- colMeans(precipitation[,-1])
+eight_day_max_temp <- max(na.omit(tempurature[,-1]))
+precipitation <- colMeans(na.omit(precipitation[,-1]))
 
-eight_day_mean_precip <- mean(precipitation)
+eight_day_mean_precip <- mean(na.omit(precipitation))
 
 current_meteorology <- as.data.frame(cbind(eight_day_max_temp,eight_day_mean_precip ))
 
 ## Write out results
 write.csv2(current_meteorology, paste(outfolder,day, "current_meteorology.csv", sep = "")) ## Can be overwritten. Least information file. 
-
