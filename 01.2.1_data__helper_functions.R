@@ -6,7 +6,7 @@
 ##` @day_interval            The number of days incorperated into a product
 ##` @description             This function checks data that is downloaded, and returns only the days that correspond to the day_interval. Will return a warning if today might contain data that hasn't been downloaded. 
 library(lubridate, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
-get_days <- function(first_date = '20190306', most_recent_date = Sys.time(),day_interval = 8, data_type = "GEFS", data_path = '/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/'){
+get_days <- function(first_date = '20170101', most_recent_date = Sys.time(),day_interval = 8, data_type = "GEFS", data_path = '/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/'){
   
   full_data_path <- paste(data_path, data_type, sep = "") # Make data_path type specific
   most_recent_date <- format(most_recent_date, "%Y%m%d")
@@ -63,7 +63,7 @@ get_days <- function(first_date = '20190306', most_recent_date = Sys.time(),day_
   
   ### IF MODIS
   if(data_type == "MOD14A2"){
-  full_data_path <- paste(full_data_path, "/2019/MOD14A2.csv", sep="")
+  full_data_path <- paste(full_data_path, "/2017/MOD14A2.csv", sep="")
   modis_current <- read.csv(full_data_path)
   modis_current <- as.matrix(modis_current)
   
