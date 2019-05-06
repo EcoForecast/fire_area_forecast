@@ -26,11 +26,12 @@ Fire_timeseries <-" model {
  for ( i in 1:N){
  y_modis[i] ~ dpois(x[i])  #, tau_modis) # modis
  }
- 
+
  for (j in start_viirs:end_viirs){
   y_viirs[j] ~dpois(x[j])
  }
 
+ ### Add in VIIRS start and stop date 
  
  ### Process model for Fire
  for(t in 2:N) {
@@ -50,7 +51,6 @@ data<-list()
 data$y <- precip # Precip
 data$y_2 <- temp # Temp
 data$y_modis <- modis # modis 
-data$y_viirs <- viirs
 data$N<- 92 # N #total number of days. 
 
 ### Priors
@@ -68,6 +68,7 @@ data$s_1 <- 1/13314198
 data$s_2 <- 1
 data$start_viirs <- 47
 data$end_viirs <- 92
+
 
 
 inits_tess<-list() #

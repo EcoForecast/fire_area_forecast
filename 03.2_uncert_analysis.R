@@ -7,7 +7,7 @@ library(ecoforecastR)
 ##` @param ppt   Precipitation forecast
 ##` @param Q     Process error (default = 0 for deterministic runs)
 ##` @param n     Size of Monte Carlo ensemble
-#source('/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/01.2.1_data__helper_functions.R')
+source('/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/01.2.1_data__helper_functions.R')
 ### read in MODIS data
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
 modis1 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/MOD14A2.csv")
@@ -76,7 +76,7 @@ ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6
 lines(time1,ci[2,sel],col="grey")
 points(time1,modis_f[time1])
 
-
+NT_f=
 
 ### function to forecast
 forecastN <- function(IC,
@@ -86,7 +86,7 @@ forecastN <- function(IC,
                       y_2,
                       Q=0,
                       n=Nmc){
-  N <- matrix(NA,n,NT)  ## storage
+  N <- matrix(NA,n,NT_f)  ## storage
   Nprev <- IC           ## initialize
   for(t in 2:N) {
     mu[t] <- N[t-1]+ beta_precip*y[t] + beta_temp*y_2[t] #+beta_IC
