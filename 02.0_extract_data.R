@@ -15,9 +15,9 @@
 #   }
 # }
 # 
-# #get.pkg("sp")
-# #get.pkg("Rcpp")
-# #get.pkg("gdalUtils")
+# get.pkg("sp")
+# get.pkg("Rcpp")
+# get.pkg("gdalUtils")
 # #get.pkg("rgdal")
 # 
 # library(sp)
@@ -74,14 +74,14 @@
 # calculate active fire area and write out a csv file
 # caution: you will need to run module load R_earth in the bash beforehand
 
-#install.packages("gdalUtils", repos = 'http://cran.us.r-project.org')
+install.packages("gdalUtils", repos = 'http://cran.us.r-project.org')
 library(gdalUtils)
 library(rgdal)
 library(raster)
 
 # arguments provided as in and out folders
-infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/" 
-outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/"
+infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/" 
+outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/"
 
 ### here is a loop to read in all hdf datas and write out a single csv containing:
 # 1. the starting date of record
@@ -117,8 +117,8 @@ write.csv(data.frame(out),"MOD14A2.csv")
 ### process on the VIIRS
 
 # arguments provided as in and out folders
-infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/" 
-outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2019/"
+infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2018/" 
+outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2018/"
 
 sub.folders <- list.dirs(infolder, recursive=TRUE)[-1]
 
