@@ -32,6 +32,6 @@ temp <- apply(as.data.frame(temp), 1, max)
 
   #temp <- temp_list[, i]
   #precip <- precip_list[, i]
-run_JAGS_model(ensemble_name = "historical_calibration_with_modis_and_viirs", temp = temp, precip = precip, modis= modis, viirs =viirs )
+run_JAGS_model(ensemble_name = "historical_calibration_with_modis_and_viirs_better_priors_and_sigma", temp = temp, precip = precip, modis= modis, viirs =viirs )
 
 

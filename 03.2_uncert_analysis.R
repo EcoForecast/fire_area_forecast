@@ -18,7 +18,7 @@ modis <- rbind(modis1, modis2, modis3)
 dates <- format(as.POSIXct(modis$X1), "%Y%m%d")
 modis_f <- modis$X2
 #dates <- modis$X1
-load("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/20190505.First_historical_fit_modis_only.convergence_passed_GBR_test.JAGS_run.Rdata")
+load('/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/20190506.historical_calibration_with_modis_and_viirs_better_priors_and_sigma.convergence_passed_GBR_test.JAGS_run.Rdata')
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
 GEFS <- read.csv("/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/summary_data_8days.csv")
 precip <- read.csv("/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/summary_data_8days.csv")[,4]
@@ -73,8 +73,8 @@ min_plt = min(min(ci),min(ci))
 max_plt = max(max(ci),max(ci))
 plot(1:NT,1:NT,type='n',xlim=c(1,NT*2),ylim=c(min_plt,max_plt), ylab="Bure Area (m2)")
 ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
-lines(time1,ci[2,sel],col="blue")
-#points(time1,modis_f[time1])
+lines(time1,ci[2,sel],col="grey")
+points(time1,modis_f[time1])
 
 
 
