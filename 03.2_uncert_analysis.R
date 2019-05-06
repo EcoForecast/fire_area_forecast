@@ -20,6 +20,7 @@ modis_f <- modis$X2
 #dates <- modis$X1
 load("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/20190505.First_historical_fit_modis_only.convergence_passed_GBR_test.JAGS_run.Rdata")
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
+GEFS <- read.csv("/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/summary_data_8days.csv")
 precip <- read.csv("/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/summary_data_8days.csv")[,4]
 temp <- read.csv("/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/summary_data_8days.csv")[,3]
 
@@ -75,6 +76,8 @@ ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6
 lines(time1,ci[2,sel],col="blue")
 #points(time1,modis_f[time1])
 
+
+
 ### function to forecast
 forecastN <- function(IC,
                       beta_precip,
@@ -98,7 +101,8 @@ forecastN <- function(IC,
 
 ### calculate mean of all inputs
 ## Read in temp and precip ensembles first, then calculate mean for precip and max for temp
-met_days <- get_days(data_type = "GEFS")
+#met_days <- get_days(data_type = "GEFS")
+dates <- format(as.POSIXct(GEFS$X1), "%Y%m%d")
 temp_list <- matrix(ncol = 21, nrow = length(met_days))
 precip_list <- matrix(ncol = 21, nrow = length(met_days))
 temp.max <- matrix(apply(temp_list,2,max),1,NT) ## driver1
