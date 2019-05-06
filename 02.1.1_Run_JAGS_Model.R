@@ -66,7 +66,8 @@ data$r_0<- -3 ## Probably a negative relationship -- likely more influential tha
 data$v_r<- 1/10 ## Unsure how much uncertainty 
 data$k_0<- 3 # Probably positive relationship with temperature
 data$v_k<- 0.5 # no large SD
-data$mu1<-172000000  # Modis Burn area from feb second. Feb second is too early to include in our anlysis. 
+data$mu1<- 17125000 # MODIS mean burned area from Jan&Feb
+#data$mu1<- 172000000  # Modis Burn area from feb second. Feb second is too early to include in our anlysis. 
 #data$v_0<- 10 
 #data$mod_1 <- 10
 #data$mod_2 <- 1

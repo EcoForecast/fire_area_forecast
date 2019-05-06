@@ -80,8 +80,8 @@ library(rgdal)
 library(raster)
 
 # arguments provided as in and out folders
-infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/" 
-outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/"
+infolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2016/" 
+outfolder <- "/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2016/"
 
 ### here is a loop to read in all hdf datas and write out a single csv containing:
 # 1. the starting date of record
