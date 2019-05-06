@@ -27,7 +27,7 @@ Nmc = 1000         ## set number of Monte Carlo draws
 ylim = range(modis_f)  ## set Y range on plot
 #N.cols <- c("black","red","green","blue","orange") ## set colors
 trans <- 0.8       ## set transparancy
-NT = 4
+NT = 90
 time = 1:(NT*2)    ## total time
 time1 = 1:NT       ## calibration period
 time2 = time1+NT   ## forecast period
@@ -35,27 +35,33 @@ time2 = time1+NT   ## forecast period
 
 
 ### function to plot
-plot.run <- function(){
-  sel = seq(1,ncol(ci))
-  plot(1:4,1:4,type='n',xlim=c(1,NT*2),ylim=c(min(modis_f),max(modis_f)),ylab="Bure Area (m2)")
-  ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
-  lines(time1,ci[2,sel],col="blue")
-  points(time1,modis_f)
-}
+# plot.run <- function(){
+#   sel = seq(1,ncol(ci))
+# #  plot(1:4,1:4,type='n',xlim=c(1,NT*2),ylim=c(min(modis_f),max(modis_f)),ylab="Bure Area (m2)")
+#   plot(1:4,1:4,type='n',xlim=c(1,NT*2),ylab="Bure Area (m2)")
+#   ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
+#   lines(time1,ci[2,sel],col="blue")
+#   points(time1,modis_f)
+# }
 ## separate jags.burn into params and predict
 params <- list()
 predict <- list()
 for(i in 1:3){
   mcmc <- jags.burn[[i]]
   params.i <- mcmc[,c(1,2)]
-  predict.i <- mcmc[,3:6]
+  predict.i <- mcmc[,3:(2+NT)]
   params[[i]] <- params.i
   predict[[i]] <- predict.i
 }
 out.jags.burn <- list(params=params,predict=predict)
 
 ci <- apply(as.matrix(out.jags.burn$predict[[1]]),2,quantile,c(0.025,0.5,0.975))
-plot.run()
+sel = seq(1,ncol(ci))
+#  plot(1:4,1:4,type='n',xlim=c(1,NT*2),ylim=c(min(modis_f),max(modis_f)),ylab="Bure Area (m2)")
+plot(1:NT,1:NT,type='n',xlim=c(1,NT*2),ylim=c(min(ci),max(ci)), ylab="Bure Area (m2)")
+ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
+lines(time1,ci[2,sel],col="blue")
+#points(time1,modis_f)
 
 
 ### function to forecast
