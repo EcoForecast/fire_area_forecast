@@ -10,6 +10,10 @@ modis_2018 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/M
 modis_2017 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/MOD14A2.csv")
 modis <- c(modis_2017$X2, modis_2018$X2)
 
+# Read in VIIRS
+
+viirs_2018 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2018/VNP14A1_M.csv")
+
 ### Era5 data
 lat <- -36.962324
 long <- 149.455727
@@ -27,6 +31,6 @@ temp <- apply(as.data.frame(temp), 1, max)
 
   #temp <- temp_list[, i]
   #precip <- precip_list[, i]
-run_JAGS_model(ensemble_name = "First_historical_fit_modis_only", temp = temp, precip = precip, modis= modis)
+run_JAGS_model(ensemble_name = "historical_fit_modis_and_viirs", temp = temp, precip = precip, modis= modis, viirs =viirs_2018$fire_area )
 
 
