@@ -266,8 +266,8 @@ download.NOAA_GEFS <- function(outfolder, lat.in, lon.in, sitename, start_date =
 }#download.NOAA_GEFS
 
 
-#outfolder <- "/Users/tess/Documents/work/Gefs_download2015/" ## For local debugging 
-#start_date <- "2019-05-01 12:00:00 EDT" # for local debugigng
+## Fordebugging 
+#start_date <- "2019-05-05 12:00:00 EDT" # for local debugigng
 #start_date <- as.POSIXct(start_date) # Doesn't work for local debudding but IF put wrong day (ie 31st on month with only 30 days)
 #test_day <- "2019-05-01 12:00:00 EDT" # for local debugging
 #day <- "20190501"
