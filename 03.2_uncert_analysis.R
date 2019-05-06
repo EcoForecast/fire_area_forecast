@@ -7,10 +7,13 @@ library(ecoforecastR)
 ##` @param ppt   Precipitation forecast
 ##` @param Q     Process error (default = 0 for deterministic runs)
 ##` @param n     Size of Monte Carlo ensemble
-source('/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/01.2.1_data__helper_functions.R')
+#source('/usr3/graduate/shijuan/Desktop/my_own_fork/fire_area_forecast/01.2.1_data__helper_functions.R')
 ### read in MODIS data
 setwd("/projectnb/dietzelab/tmccabe/mccabete/Fire_forecast_509/output")
-modis <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/MOD14A2.csv")
+modis1 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2017/MOD14A2.csv")
+modis2 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2018/MOD14A2.csv")
+modis3 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/MOD14A2/2019/MOD14A2.csv")
+modis <- rbind(modis1, modis2, modis3)
 #modis_days <- get_days(data_type = "MOD14A2")
 dates <- format(as.POSIXct(modis$X1), "%Y%m%d")
 modis_f <- modis$X2
@@ -58,11 +61,19 @@ out.jags.burn <- list(params=params,predict=predict)
 ci <- apply(as.matrix(out.jags.burn$predict[[1]]),2,quantile,c(0.025,0.5,0.975))
 sel = seq(1,ncol(ci))
 #  plot(1:4,1:4,type='n',xlim=c(1,NT*2),ylim=c(min(modis_f),max(modis_f)),ylab="Bure Area (m2)")
-plot(1:NT,1:NT,type='n',xlim=c(1,NT*2),ylim=c(min(ci),max(ci)), ylab="Bure Area (m2)")
+min_plt = min(min(ci),min(modis_f))
+max_plt = max(max(ci),max(modis_f))
+plot(1:NT,1:NT,type='n',xlim=c(1,NT*2),ylim=c(min_plt,max_plt), ylab="Bure Area (m2)")
 ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
 lines(time1,ci[2,sel],col="blue")
-#points(time1,modis_f)
+points(time1,modis_f[time1])
 
+min_plt = min(min(ci),min(ci))
+max_plt = max(max(ci),max(ci))
+plot(1:NT,1:NT,type='n',xlim=c(1,NT*2),ylim=c(min_plt,max_plt), ylab="Bure Area (m2)")
+ecoforecastR::ciEnvelope(time1,ci[1,sel],ci[3,sel],col=col.alpha("lightBlue",0.6))
+lines(time1,ci[2,sel],col="blue")
+#points(time1,modis_f[time1])
 
 ### function to forecast
 forecastN <- function(IC,
