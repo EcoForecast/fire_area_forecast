@@ -13,6 +13,7 @@ modis <- c(modis_2017$X2, modis_2018$X2)
 # Read in VIIRS
 
 viirs_2018 <- read.csv("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/data/VNP14A1/2018/VNP14A1_M.csv")
+viirs <- c(rep(NA, 46), viirs_2018$fire_area) ## Needs to be same length as modis
 
 ### Era5 data
 lat <- -36.962324
@@ -31,6 +32,6 @@ temp <- apply(as.data.frame(temp), 1, max)
 
   #temp <- temp_list[, i]
   #precip <- precip_list[, i]
-run_JAGS_model(ensemble_name = "historical_fit_modis_and_viirs", temp = temp, precip = precip, modis= modis, viirs =viirs_2018$fire_area )
+run_JAGS_model(ensemble_name = "historical_calibration_with_modis_and_viirs_better_priors_and_sigma", temp = temp, precip = precip, modis= modis, viirs =viirs )
 
 

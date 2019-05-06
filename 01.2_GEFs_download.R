@@ -286,7 +286,7 @@ day_number <- 8
 hour_number <- day_number *4
 flist_8_days <- list.files(path = outfolder)
 flist_8_days <- flist_8_days[grep("NOAA*", flist_8_days)]
-flist_8_days <- flist_8_days[grep("*12:00", flist_8_days)]
+#flist_8_days <- flist_8_days[grep("*12:00", flist_8_days)]
 #days_pattern <- paste(format(start_date, "%Y-%m-%dT%H:%M"), ".2019-", sep="")
 #flist_8_days <- flist_8_days[grep(days_pattern, flist_8_days)]
 flist_8_days <- unique(flist_8_days)

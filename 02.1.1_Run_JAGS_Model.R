@@ -7,17 +7,9 @@
 ##` @param modis             a vector of fire area values
 ##` @description             This function will forecast the model the number of days that we have GEFS data but no Modis data. Will save the output as .Rdata object
 library(rjags, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
-#source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/01.2.1_data__helper_functions.R")
 
-run_JAGS_model <- function(ensemble_name = NA, n.iter = 500000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs = NULL){
+run_JAGS_model <- function(ensemble_name = NA, n.iter = 570000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs){
 
-## Get Number of Days of availible data
-#GEF_days <- get_days(data_type = "GEFS") # Number of days with Temp and Precip 
-#modis_days <- get_days(data_type = "MOD14A2")
-#forecast_days <- length(GEF_days) - length(modis_days)
-#GEF_days <- GEF_days[as.vector(GEF_days) == as.vector(modis_days)] # Number of days with Temp and Precip and overlap with MODIS day
-#N <- length(modis_days) 
-  
 #### Set up Model
 Fire_timeseries <-" model {
  ### priors
@@ -26,18 +18,18 @@ Fire_timeseries <-" model {
  #beta_IC ~ dnorm(I_0, S_0)
  #tau_modis ~ dgamma(mod_1, mod_2)
  sigma ~dgamma(s_1, s_2)
- sd <- 1/sqrt(sigma)
+ #sd <- 1/sqrt(sigma)
  x[1] ~ dnorm(mu1, sigmaIC)
 
  
  ###Observation error
  for ( i in 1:N){
- y_modis[i] ~ dpois(x[i])#, tau_modis) # modis
+ y_modis[i] ~ dpois(x[i])  #, tau_modis) # modis
  }
 
- #for (i in start_viirs:end_viirs){   #Uncomment when viirs availible 
- #  y_viirs[i] ~ dpois(x[i])
- #}
+ for (j in start_viirs:end_viirs){
+  y_viirs[j] ~dpois(x[j])
+ }
 
  ### Add in VIIRS start and stop date 
  
@@ -45,7 +37,7 @@ Fire_timeseries <-" model {
  for(t in 2:N) {
 
  mu[t] <- x[t-1]+ beta_precip*y[t] + beta_temp*y_2[t] #+beta_IC
- x[t] ~ dnorm(mu[t], sd) # Was 1/sigma 
+ x[t] ~ dnorm(mu[t], sigma) # Was 1/sigma 
  
 
  }
@@ -63,19 +55,21 @@ data$N<- 92 # N #total number of days.
 
 ### Priors
 data$r_0<- -3 ## Probably a negative relationship -- likely more influential than temperature 
-data$v_r<- 1/10 ## Unsure how much uncertainty 
+data$v_r<- 0.0001 ## Unsure how much uncertainty 
 data$k_0<- 3 # Probably positive relationship with temperature
-data$v_k<- 0.5 # no large SD
+data$v_k<- 0.0001 # no large SD
 data$mu1<- 17125000 # MODIS mean burned area from Jan&Feb
 #data$mu1<- 172000000  # Modis Burn area from feb second. Feb second is too early to include in our anlysis. 
 #data$v_0<- 10 
 #data$mod_1 <- 10
 #data$mod_2 <- 1
-data$sigmaIC <- 0.01
-data$s_1 <- 10
+data$sigmaIC <- 1/13314198
+data$s_1 <- 1/13314198
 data$s_2 <- 1
-#data$start_viirs
-#data$end_viirs
+data$start_viirs <- 47
+data$end_viirs <- 92
+
+
 
 inits_tess<-list() #
 inits_tess[[1]] <- list( beta_precip = -1, beta_temp = 30)
@@ -88,7 +82,7 @@ j.model   <- jags.model (file = textConnection(Fire_timeseries),
                          n.chains = 3)
 
 jags.out   <- coda.samples (model = j.model,
-                            variable.names = c("x", "beta_precip", "beta_temp"),
+                            variable.names = c("x", "beta_precip", "beta_temp", "sigma"),
                             n.iter = n.iter)
 GBR <- gelman.plot(jags.out)
 burnin <- GBR$last.iter[tail(which(apply(GBR$shrink[,,2]>1.05,1,any)),1)+1]
