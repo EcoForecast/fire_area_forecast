@@ -33,11 +33,12 @@ Fire_timeseries <-" model {
  ###Observation error
  for ( i in 1:N){
  y_modis[i] ~ dpois(x[i])#, tau_modis) # modis
+ if ( i > start_viirs){
+ j <- i - start_viirs
+ y_viirs[j] ~ dpois(x[i])
+ } 
  }
 
- for (i in start_viirs:end_viirs){   #Uncomment when viirs availible 
-   y_viirs[i] ~ dpois(x[i])
- }
 
  
  ### Process model for Fire
@@ -74,7 +75,7 @@ data$sigmaIC <- 0.01
 data$s_1 <- 10
 data$s_2 <- 1
 data$start_viirs <- 46
-data$end_viirs <- 92
+
 
 inits_tess<-list() #
 inits_tess[[1]] <- list( beta_precip = -1, beta_temp = 30)
