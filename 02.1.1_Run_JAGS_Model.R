@@ -9,7 +9,7 @@
 library(rjags, lib.loc = "/share/pkg/r/3.5.2/install/lib64/R/library")
 #source("/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/scripts/tess_geo_fork/fire_area_forecast/01.2.1_data__helper_functions.R")
 
-run_JAGS_model <- function(ensemble_name = NA, n.iter = 500000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs = NULL){
+run_JAGS_model <- function(ensemble_name = NA, n.iter = 570000, outfile = "/usr3/graduate/tmccabe/mccabete/Fire_forecast_509/output/mcmc/", temp, precip, modis, viirs){
 
 ## Get Number of Days of availible data
 #GEF_days <- get_days(data_type = "GEFS") # Number of days with Temp and Precip 
@@ -35,8 +35,8 @@ Fire_timeseries <-" model {
  y_modis[i] ~ dpois(x[i])  #, tau_modis) # modis
  }
  
- for (i in start_viirs:end_viirs){
-  y_viirs[i] ~dpois(x[i])
+ for (j in start_viirs:end_viirs){
+  y_viirs[j] ~dpois(x[j])
  }
 
  
@@ -63,17 +63,17 @@ data$N<- 92 # N #total number of days.
 
 ### Priors
 data$r_0<- -3 ## Probably a negative relationship -- likely more influential than temperature 
-data$v_r<- 1/10 ## Unsure how much uncertainty 
+data$v_r<- 1/13314198 ## 
 data$k_0<- 3 # Probably positive relationship with temperature
 data$v_k<- 0.5 # no large SD
-data$mu1<-172000000  # Modis Burn area from feb second. Feb second is too early to include in our anlysis. 
+data$mu1<- 17125000 # MODIS mean burned area from Jan&Feb  
 #data$v_0<- 10 
 #data$mod_1 <- 10
 #data$mod_2 <- 1
-data$sigmaIC <- 0.01
-data$s_1 <- 10
+data$sigmaIC <- 0.01 # Tess Chagned this prior to be the same 
+data$s_1 <- 13314198
 data$s_2 <- 1
-data$start_viirs <- 46
+data$start_viirs <- 47
 data$end_viirs <- 92
 
 
