@@ -59,12 +59,11 @@ data$v_r<- 0.0001 ## Unsure how much uncertainty
 data$k_0<- 3 # Probably positive relationship with temperature
 data$v_k<- 0.0001 # no large SD
 data$mu1<- 17125000 # MODIS mean burned area from Jan&Feb
-#data$mu1<- 172000000  # Modis Burn area from feb second. Feb second is too early to include in our anlysis. 
 #data$v_0<- 10 
 #data$mod_1 <- 10
 #data$mod_2 <- 1
 data$sigmaIC <- 1/13314198
-data$s_1 <- 1/13314198
+data$s_1 <- 200
 data$s_2 <- 1
 data$start_viirs <- 47
 data$end_viirs <- 92
